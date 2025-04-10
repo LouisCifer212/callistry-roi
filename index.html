@@ -7,23 +7,19 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #1e1e2f, #3e4c6d);
+      padding: 20px;
+      background: linear-gradient(135deg, #1e1e82, #5e2d91);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
       color: #fff;
     }
     .container {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(10px);
-      padding: 40px;
+      padding: 30px;
       border-radius: 20px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-      max-width: 700px;
-      width: 90%;
+      max-width: 600px;
+      margin: 0 auto;
       text-align: center;
       animation: fadeIn 1s ease-in-out;
     }
@@ -34,10 +30,16 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    label, select, input {
-      margin: 10px 0;
+    label {
+      display: block;
+      margin: 20px 0 5px;
+      text-align: left;
+      font-weight: 600;
+    }
+    select, input {
       width: 100%;
       padding: 12px;
+      margin-bottom: 10px;
       border-radius: 8px;
       border: none;
       font-size: 1em;
@@ -86,7 +88,8 @@
 </head>
 <body>
   <div class="container">
-    <h2><span style="color: #1e1e82">Callistry</span> ROI Calculator</h2>
+    <img src="https://raw.githubusercontent.com/LouisCifer212/callistry-roi/main/Facebook%20Profile%20Pic.png" alt="Callistry Logo" style="width: 80px; margin-bottom: 20px;">
+    <h2 style="color: #f6ba02;">Callistry ROI Calculator</h2>
 
     <label for="country">Country (call origin - where you're calling from):</label>
     <select id="country">
@@ -126,9 +129,25 @@
     </select>
 
     <div class="result" id="output"></div>
-  </div>
+  <p style="font-size: 0.85em; margin-top: 30px; color: #ccc; text-align: center;">
+  📌 Note: Calculations are based on an average real estate deal value of <strong>AED 1,000,000</strong> with a minimum 2% commission per deal.
+</p>
+<p style="font-size: 0.85em; margin-top: 20px; color: #ccc; text-align: center;">
+📌 We recommend using campaigns to generate appointments in a balanced way based on your current team. One agent can typically manage up to <strong>2 appointments per day</strong>, with a standard 5-day work week, focusing on new clients.
+</p>
+</div>
 
-  <script>
+<!-- Action buttons -->
+<div style="text-align: center; margin-top: 30px;">
+  <a href="https://wa.me/971552930212" target="_blank" style="display: inline-block; background-color: #25D366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height: 20px; vertical-align: middle; margin-right: 8px;"> WhatsApp with us
+  </a>
+  <a href="https://login.1stisland.com/payment-link/67c14fd9156a775b216e55d3" target="_blank" style="display: inline-block; background-color: #f6ba02; color: #000; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
+    💳 Buy Now
+  </a>
+</div>
+
+<script>
     const country = document.getElementById('country');
     const llm = document.getElementById('llm');
     const minutes = document.getElementById('minutes');
@@ -136,10 +155,24 @@
     const output = document.getElementById('output');
 
     function getLLMPackagePrice(min) {
-      if (min <= 1000) return 99;
-      if (min <= 5000) return 499;
-      if (min <= 15000) return 1499;
-      return 1499 + Math.ceil((min - 15000) / 1000) * 100;
+      let remaining = min;
+      let total = 0;
+      while (remaining > 0) {
+        if (remaining >= 15000) {
+          total += 1499;
+          remaining -= 15000;
+        } else if (remaining >= 5000) {
+          total += 499;
+          remaining -= 5000;
+        } else if (remaining >= 1000) {
+          total += 99;
+          remaining -= 1000;
+        } else {
+          total += 99; // minimum block pricing even for <1000
+          break;
+        }
+      }
+      return total;
     }
 
     function calculate() {
@@ -182,6 +215,7 @@
           <li>You get around <span class="highlight">${estimatedConversations}</span> conversations</li>
           <li>At an average <span class="highlight">10%</span> conversion rate</li>
           <li>You can expect around <span class="highlight">${estimatedAppointments}</span> appointments booked</li>
+          <li><strong>Agents Required:</strong> <span class="highlight">${Math.ceil(estimatedAppointments / (2 * 5 * 4))}</span> (based on max 2 appointments/day, 5 days/week, 4 weeks/month)</li>
         </ul>
 
         <strong>📉 ROI Based on Selected Deal Closing Rate:</strong><br>
@@ -191,11 +225,20 @@
           <li>You close <span class="highlight">${estimatedDeals}</span> deals</li>
           <li>Total income: <span class="highlight">AED ${totalRevenue}</span></li>
           <li><strong>Net Profit:</strong> <span class="highlight" style="color: ${profitColor}">AED ${totalProfit.toFixed(2)}</span></li>
-        </ul>`;
+        </ul>
+        <div id="lowRateNote"></div>`;
     }
 
     window.addEventListener("DOMContentLoaded", () => {
       calculate();
+      conversionRate.addEventListener('change', () => {
+        const disclaimer = document.getElementById('lowRateNote');
+        if (parseFloat(conversionRate.value) === 0.02) {
+          disclaimer.innerHTML = `<p style='font-size: 0.85em; color: #ffaa00; margin-top: 10px;'><strong>Disclaimer:</strong> A 2% closing rate is considered extremely conservative. If this reflects your current results, it may indicate an opportunity to improve lead nurturing and closing strategies.</p>`;
+        } else {
+          disclaimer.innerHTML = '';
+        }
+      });
     });
 
     country.addEventListener('change', calculate);
@@ -205,4 +248,3 @@
   </script>
 </body>
 </html>
-

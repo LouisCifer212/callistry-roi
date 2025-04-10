@@ -4,5 +4,205 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Callistry ROI Calculator</title>
-  ...
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1e1e2f, #3e4c6d);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #fff;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      max-width: 700px;
+      width: 90%;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+      background: linear-gradient(to right, #00ffe7, #5e7eff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    label, select, input {
+      margin: 10px 0;
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+      background: #1c1f2b;
+      color: #fff;
+    }
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background: #12141c;
+      border: 1px solid #444;
+      border-radius: 14px;
+      text-align: left;
+      animation: slideUp 0.6s ease-in-out;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #222b40;
+    }
+    .highlight {
+      color: #00ffae;
+      font-weight: bold;
+    }
+    ul {
+      padding-left: 20px;
+      text-align: left;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2><span style="color: #1e1e82">Callistry</span> ROI Calculator</h2>
+
+    <label for="country">Country (call origin - where you're calling from):</label>
+    <select id="country">
+      <option value="0.2205">UAE</option>
+      <option value="0.055">USA</option>
+      <option value="0.3308">Italy</option>
+      <option value="0.3500">Germany</option>
+      <option value="0.0368">India</option>
+      <option value="0.3480">Russia</option>
+      <option value="0.013">UK</option>
+    </select>
+
+    <label for="llm">AI Model:</label>
+    <select id="llm">
+      <option value="0.000099">GPT-4o Mini</option>
+      <option value="0.0000998">GPT-4o</option>
+      <option value="0.0000999">GPT-4o Realtime</option>
+      <option value="0.000096">Claude 3 Haiku</option>
+      <option value="0.000096">Claude 3.5 Haiku</option>
+      <option value="0.0000999">Claude 3.7 Sonnet</option>
+    </select>
+
+    <label for="minutes">Minutes Used per Month:</label>
+    <input type="number" id="minutes" value="1000">
+
+    <label for="conversionRate">Your Real Estate Agency's Deal Closing Rate (%):</label>
+    <select id="conversionRate">
+      <option value="0.02">2%</option>
+      <option value="0.03">3%</option>
+      <option value="0.04">4%</option>
+      <option value="0.05">5%</option>
+      <option value="0.06">6%</option>
+      <option value="0.07">7%</option>
+      <option value="0.08">8%</option>
+      <option value="0.09">9%</option>
+      <option value="0.10">10%</option>
+    </select>
+
+    <div class="result" id="output"></div>
+  </div>
+
+  <script>
+    const country = document.getElementById('country');
+    const llm = document.getElementById('llm');
+    const minutes = document.getElementById('minutes');
+    const conversionRate = document.getElementById('conversionRate');
+    const output = document.getElementById('output');
+
+    function getLLMPackagePrice(min) {
+      if (min <= 1000) return 99;
+      if (min <= 5000) return 499;
+      if (min <= 15000) return 1499;
+      return 1499 + Math.ceil((min - 15000) / 1000) * 100;
+    }
+
+    function calculate() {
+      const voice = parseFloat(country.value);
+      const llmPerMinute = parseFloat(llm.value);
+      const min = parseFloat(minutes.value);
+      const dealCommission = 20000;
+      const fixedCostAED = 4800;
+
+      const llmPackageCostUSD = getLLMPackagePrice(min);
+      const voiceCostUSD = voice * min;
+      const totalCostAED = fixedCostAED + (voiceCostUSD * 3.67);
+      const totalLLMAED = llmPackageCostUSD * 3.67;
+      const totalMonthlyCostAED = totalCostAED + totalLLMAED;
+
+      const estimatedConversations = Math.floor(min / 2.5);
+      const estimatedAppointments = Math.floor(estimatedConversations * 0.10);
+      const estimatedDeals = Math.floor(estimatedAppointments * parseFloat(conversionRate.value));
+      const totalRevenue = estimatedDeals * 20000;
+      const totalProfit = totalRevenue - totalMonthlyCostAED;
+
+      const profitColor = totalProfit >= 0 ? '#00ffae' : '#ff5e5e';
+
+      output.innerHTML = `
+        <strong>LLM Cost (USD):</strong> <span class="highlight">$${llmPackageCostUSD.toFixed(2)}</span><br>
+        <strong>Voice Cost (USD):</strong> <span class="highlight">$${voiceCostUSD.toFixed(2)}</span><br>
+
+        <table>
+          <tr><th>Item</th><th>Value</th></tr>
+          <tr><td>💵 Fixed Callistry Cost</td><td class="highlight">AED ${fixedCostAED}</td></tr>
+          <tr><td>📞 Twilio Cost (Voice)</td><td class="highlight">AED ${(voiceCostUSD * 3.67).toFixed(2)}</td></tr>
+          <tr><td>🧠 Purchased LLM Package</td><td class="highlight">AED ${totalLLMAED.toFixed(2)}</td></tr>
+          <tr><td><strong>💰 Total Monthly Cost</strong></td><td class="highlight"><strong>AED ${totalMonthlyCostAED.toFixed(2)}</strong></td></tr>
+        </table>
+
+        <strong>📊 Estimated Appointment Simulation:</strong><br>
+        <ul>
+          <li>If you make <span class="highlight">${min}</span> minutes of calls</li>
+          <li>With an average call length of <span class="highlight">2.5 minutes</span></li>
+          <li>You get around <span class="highlight">${estimatedConversations}</span> conversations</li>
+          <li>At an average <span class="highlight">10%</span> conversion rate</li>
+          <li>You can expect around <span class="highlight">${estimatedAppointments}</span> appointments booked</li>
+        </ul>
+
+        <strong>📉 ROI Based on Selected Deal Closing Rate:</strong><br>
+        <ul>
+          <li>Assuming ${estimatedAppointments} appointments</li>
+          <li>And a closing rate of <span class="highlight">${(parseFloat(conversionRate.value) * 100).toFixed(0)}%</span></li>
+          <li>You close <span class="highlight">${estimatedDeals}</span> deals</li>
+          <li>Total income: <span class="highlight">AED ${totalRevenue}</span></li>
+          <li><strong>Net Profit:</strong> <span class="highlight" style="color: ${profitColor}">AED ${totalProfit.toFixed(2)}</span></li>
+        </ul>`;
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      calculate();
+    });
+
+    country.addEventListener('change', calculate);
+    llm.addEventListener('change', calculate);
+    minutes.addEventListener('input', calculate);
+    conversionRate.addEventListener('change', calculate);
+  </script>
+</body>
 </html>
+

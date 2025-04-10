@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Callistry ROI Calculator</title>
   <style>
     body {
@@ -21,14 +21,11 @@
       max-width: 600px;
       margin: 0 auto;
       text-align: center;
-      animation: fadeIn 1s ease-in-out;
     }
     h2 {
       margin-bottom: 20px;
       font-size: 2rem;
-      background: linear-gradient(to right, #00ffe7, #5e7eff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #f6ba02;
     }
     label {
       display: block;
@@ -53,7 +50,6 @@
       border: 1px solid #444;
       border-radius: 14px;
       text-align: left;
-      animation: slideUp 0.6s ease-in-out;
     }
     table {
       border-collapse: collapse;
@@ -76,20 +72,12 @@
       padding-left: 20px;
       text-align: left;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="https://raw.githubusercontent.com/LouisCifer212/callistry-roi/main/Facebook%20Profile%20Pic.png" alt="Callistry Logo" style="width: 80px; margin-bottom: 20px;">
-    <h2 style="color: #f6ba02;">Callistry ROI Calculator</h2>
+    <img src="https://i.imgur.com/O1sO9JP.png" alt="Callistry Logo" style="width: 80px; margin-bottom: 20px;">
+    <h2>Callistry ROI Calculator</h2>
 
     <label for="country">Country (call origin - where you're calling from):</label>
     <select id="country">
@@ -113,7 +101,7 @@
     </select>
 
     <label for="minutes">Minutes Used per Month:</label>
-    <input type="number" id="minutes" value="1000">
+    <input type="number" id="minutes" value="1000"/>
 
     <label for="conversionRate">Your Real Estate Agency's Deal Closing Rate (%):</label>
     <select id="conversionRate">
@@ -129,25 +117,25 @@
     </select>
 
     <div class="result" id="output"></div>
-  <p style="font-size: 0.85em; margin-top: 30px; color: #ccc; text-align: center;">
-  📌 Note: Calculations are based on an average real estate deal value of <strong>AED 1,000,000</strong> with a minimum 2% commission per deal.
-</p>
-<p style="font-size: 0.85em; margin-top: 20px; color: #ccc; text-align: center;">
-📌 We recommend using campaigns to generate appointments in a balanced way based on your current team. One agent can typically manage up to <strong>2 appointments per day</strong>, with a standard 5-day work week, focusing on new clients.
-</p>
-</div>
 
-<!-- Action buttons -->
-<div style="text-align: center; margin-top: 30px;">
-  <a href="https://wa.me/971552930212" target="_blank" style="display: inline-block; background-color: #25D366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height: 20px; vertical-align: middle; margin-right: 8px;"> WhatsApp with us
-  </a>
-  <a href="https://login.1stisland.com/payment-link/67c14fd9156a775b216e55d3" target="_blank" style="display: inline-block; background-color: #f6ba02; color: #000; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
-    💳 Buy Now
-  </a>
-</div>
+    <p style="font-size: 0.85em; margin-top: 30px; color: #ccc; text-align: center;">
+      📌 Note: Calculations are based on an average real estate deal value of <strong>AED 1,000,000</strong> with a minimum 2% commission per deal.
+    </p>
+    <p style="font-size: 0.85em; margin-top: 20px; color: #ccc; text-align: center;">
+      📌 We recommend using campaigns to generate appointments in a balanced way based on your current team. One agent can typically manage up to <strong>2 appointments per day</strong>, with a standard 5-day work week.
+    </p>
+  </div>
 
-<script>
+  <div style="text-align: center; margin-top: 30px;">
+    <a href="https://wa.me/971552930212" target="_blank" style="display: inline-block; background-color: #25D366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height: 20px; vertical-align: middle; margin-right: 8px;"> WhatsApp with us
+    </a>
+    <a href="https://login.1stisland.com/payment-link/67c14fd9156a775b216e55d3" target="_blank" style="display: inline-block; background-color: #f6ba02; color: #000; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
+      💳 Buy Now
+    </a>
+  </div>
+
+  <script>
     const country = document.getElementById('country');
     const llm = document.getElementById('llm');
     const minutes = document.getElementById('minutes');
@@ -168,7 +156,7 @@
           total += 99;
           remaining -= 1000;
         } else {
-          total += 99; // minimum block pricing even for <1000
+          total += 99;
           break;
         }
       }
@@ -177,13 +165,10 @@
 
     function calculate() {
       const voice = parseFloat(country.value);
-      const llmPerMinute = parseFloat(llm.value);
       const min = parseFloat(minutes.value);
-      const dealCommission = 20000;
-      const fixedCostAED = 4800;
-
       const llmPackageCostUSD = getLLMPackagePrice(min);
       const voiceCostUSD = voice * min;
+      const fixedCostAED = 4800;
       const totalCostAED = fixedCostAED + (voiceCostUSD * 3.67);
       const totalLLMAED = llmPackageCostUSD * 3.67;
       const totalMonthlyCostAED = totalCostAED + totalLLMAED;
@@ -193,7 +178,6 @@
       const estimatedDeals = Math.floor(estimatedAppointments * parseFloat(conversionRate.value));
       const totalRevenue = estimatedDeals * 20000;
       const totalProfit = totalRevenue - totalMonthlyCostAED;
-
       const profitColor = totalProfit >= 0 ? '#00ffae' : '#ff5e5e';
 
       output.innerHTML = `
@@ -215,7 +199,7 @@
           <li>You get around <span class="highlight">${estimatedConversations}</span> conversations</li>
           <li>At an average <span class="highlight">10%</span> conversion rate</li>
           <li>You can expect around <span class="highlight">${estimatedAppointments}</span> appointments booked</li>
-          <li><strong>Agents Required:</strong> <span class="highlight">${Math.ceil(estimatedAppointments / (2 * 5 * 4))}</span> (based on max 2 appointments/day, 5 days/week, 4 weeks/month)</li>
+          <li><strong>Agents Required:</strong> <span class="highlight">${Math.ceil(estimatedAppointments / (2 * 5 * 4))}</span></li>
         </ul>
 
         <strong>📉 ROI Based on Selected Deal Closing Rate:</strong><br>

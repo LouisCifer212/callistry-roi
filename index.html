@@ -63,9 +63,9 @@
       100% { opacity: 1; }
     }
   </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-$1
+
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <div class="container">
     <h2>Callistry ROI Calculator</h2>
 
@@ -105,9 +105,7 @@ $1
       <option value="0.09">9%</option>
       <option value="0.10">10%</option>
     </select>
-    <p style="font-size: 0.85em; color: #ccc; margin-top: 10px; margin-bottom: 20px; text-align: left;">
-      📌 <strong>Tip:</strong> The closing rate is the % of appointments that become deals. For example, if you close 2 out of 10 booked appointments, your rate is 20%.
-    </p>
+    
 
     <label for="agentCount">Number of Agents Available:</label>
     <select id="agentCount">
@@ -302,7 +300,16 @@ $1
         </ul>`;
     }
   function downloadPDF() {
-  const element = document.getElementById('output');
+  const container = document.createElement('div');
+
+  const clone = document.getElementById('output').cloneNode(true);
+  const note = document.getElementById('lowRateNote').cloneNode(true);
+  const warn = document.getElementById('agentWarning').cloneNode(true);
+
+  container.appendChild(clone);
+  container.appendChild(note);
+  container.appendChild(warn);
+
   const opt = {
     margin:       0.5,
     filename:     'callistry-roi.pdf',
@@ -310,7 +317,8 @@ $1
     html2canvas:  { scale: 2 },
     jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
   };
-  html2pdf().set(opt).from(element).save();
+
+  html2pdf().set(opt).from(container).save();
 }
 </script>
 </body>

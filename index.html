@@ -222,6 +222,7 @@
           <li>You close <span style="color: ${deals > 0 ? '#00ffae' : '#ff5e5e'}; font-weight: bold;">${deals}</span> deals</li>
           <li>Total income: <span style="color: ${revenue > 0 ? '#00ffae' : '#ff5e5e'}; font-weight: bold;">AED ${revenue}</span></li>
           <li><strong>Net Profit:</strong> <span style="color: ${profit >= 0 ? '#00ffae' : '#ff5e5e'}; font-weight: bold;">AED ${profit.toFixed(2)}</span></li>
+<li><strong>ROI:</strong> <span style="color: ${profit >= 0 ? '#00ffae' : '#ff5e5e'}; font-weight: bold;">${totalMonthlyCost > 0 ? ((profit / totalMonthlyCost) * 100).toFixed(1) : 0}%</span></li>
         </ul>`;
 
       if (conversionRate === 0.02) {

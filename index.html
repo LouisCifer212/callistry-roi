@@ -301,6 +301,10 @@
     }
   function downloadPDF() {
   const container = document.createElement('div');
+  container.style.padding = '20px';
+  container.style.fontFamily = 'Segoe UI, sans-serif';
+  container.style.color = '#000';
+  container.style.backgroundColor = '#fff';
 
   const clone = document.getElementById('output').cloneNode(true);
   const note = document.getElementById('lowRateNote').cloneNode(true);

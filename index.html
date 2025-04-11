@@ -23,6 +23,7 @@
       text-align: center;
     }
     h2 {
+      margin-top: 0;
       margin-bottom: 20px;
       font-size: 2rem;
       color: #f6ba02;
@@ -51,32 +52,21 @@
       border-radius: 14px;
       text-align: left;
     }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 15px;
+    .warning {
+      font-size: 0.85em;
+      color: #ff5e5e;
+      margin-bottom: 10px;
     }
-    th, td {
-      border: 1px solid #333;
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #222b40;
-    }
-    .highlight {
-      color: #00ffae;
-      font-weight: bold;
-    }
-    ul {
-      padding-left: 20px;
-      text-align: left;
+      @keyframes flash {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
     }
   </style>
-</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+$1
 <body>
   <div class="container">
-    <h2 style="margin-top: 0; margin-bottom: 20px; color: #f6ba02;">Callistry ROI Calculator</h2>
     <h2>Callistry ROI Calculator</h2>
 
     <label for="country">Country (call origin - where you're calling from):</label>
@@ -115,32 +105,102 @@
       <option value="0.09">9%</option>
       <option value="0.10">10%</option>
     </select>
+    <p style="font-size: 0.85em; color: #ccc; margin-top: 10px; margin-bottom: 20px; text-align: left;">
+      📌 <strong>Tip:</strong> The closing rate is the % of appointments that become deals. For example, if you close 2 out of 10 booked appointments, your rate is 20%.
+    </p>
 
-    <div class="result" id="output"></div>
+    <label for="agentCount">Number of Agents Available:</label>
+    <select id="agentCount">
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+  <option value="7">7</option>
+  <option value="8">8</option>
+  <option value="9">9</option>
+  <option value="10">10</option>
+  <option value="11">11</option>
+  <option value="12">12</option>
+  <option value="13">13</option>
+  <option value="14">14</option>
+  <option value="15">15</option>
+  <option value="16">16</option>
+  <option value="17">17</option>
+  <option value="18">18</option>
+  <option value="19">19</option>
+  <option value="20">20</option>
+  <option value="21">21</option>
+  <option value="22">22</option>
+  <option value="23">23</option>
+  <option value="24">24</option>
+  <option value="25">25</option>
+  <option value="26">26</option>
+  <option value="27">27</option>
+  <option value="28">28</option>
+  <option value="29">29</option>
+  <option value="30">30</option>
+  <option value="31">31</option>
+  <option value="32">32</option>
+  <option value="33">33</option>
+  <option value="34">34</option>
+  <option value="35">35</option>
+  <option value="36">36</option>
+  <option value="37">37</option>
+  <option value="38">38</option>
+  <option value="39">39</option>
+  <option value="40">40</option>
+  <option value="41">41</option>
+  <option value="42">42</option>
+  <option value="43">43</option>
+  <option value="44">44</option>
+  <option value="45">45</option>
+  <option value="46">46</option>
+  <option value="47">47</option>
+  <option value="48">48</option>
+  <option value="49">49</option>
+  <option value="50">50</option>
+</select>
 
-    <p style="font-size: 0.85em; margin-top: 30px; color: #ccc; text-align: center;">
+    
+
+    
+
+    <button onclick="calculate()" style="margin-top: 20px; padding: 12px 24px; font-size: 1em; background-color: #f6ba02; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+      📊 Calculate
+    </button>
+
+    <div id="output" class="result"></div>
+<div id="lowRateNote" style="font-size: 1.1em; font-weight: bold; color: #ffaa00; text-align: center; margin-top: 15px;"></div>
+<div id="agentWarning" class="warning" style="font-size: 1.1em; font-weight: bold; color: #ff5e5e; animation: flash 1s infinite;"></div>
+  <p style="font-size: 0.85em; margin-top: 30px; color: #ccc; text-align: center;">
       📌 Note: Calculations are based on an average real estate deal value of <strong>AED 1,000,000</strong> with a minimum 2% commission per deal.
     </p>
-    <p style="font-size: 0.85em; margin-top: 20px; color: #ccc; text-align: center;">
+    
+    <p style="font-size: 0.85em; margin-top: 10px; color: #ccc; text-align: center;">
       📌 We recommend using campaigns to generate appointments in a balanced way based on your current team. One agent can typically manage up to <strong>2 appointments per day</strong>, with a standard 5-day work week.
     </p>
-  </div>
-
   <div style="text-align: center; margin-top: 30px;">
-    <a href="https://wa.me/971552930212" target="_blank" style="display: inline-block; background-color: #25D366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height: 20px; vertical-align: middle; margin-right: 8px;"> WhatsApp with us
-    </a>
-    <a href="https://login.1stisland.com/payment-link/67c14fd9156a775b216e55d3" target="_blank" style="display: inline-block; background-color: #f6ba02; color: #000; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
-      💳 Buy Now
-    </a>
-  </div>
+  <button onclick="downloadPDF()" style="background-color: #f6ba02; color: #000; padding: 12px 24px; border: none; border-radius: 8px; font-weight: bold; margin: 10px; cursor: pointer;">
+    🖨️ Export to PDF
+  </button>
+  <a href="https://wa.me/971552930212" target="_blank" style="display: inline-block; background-color: #25D366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height: 20px; vertical-align: middle; margin-right: 8px;"> WhatsApp Us
+  </a>
+  <a href="https://login.1stisland.com/payment-link/67c14fd9156a775b216e55d3" target="_blank" style="display: inline-block; background-color: #f6ba02; color: #000; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
+    🚀 Start Now
+  </a>
+</div>
 
-  <script>
+<script>
     const country = document.getElementById('country');
     const llm = document.getElementById('llm');
     const minutes = document.getElementById('minutes');
     const conversionRate = document.getElementById('conversionRate');
+    const agentCount = document.getElementById('agentCount');
     const output = document.getElementById('output');
+    const agentWarning = document.getElementById('agentWarning');
 
     function getLLMPackagePrice(min) {
       let remaining = min;
@@ -164,6 +224,7 @@
     }
 
     function calculate() {
+      const lowRateNote = document.getElementById('lowRateNote');
       const voice = parseFloat(country.value);
       const min = parseFloat(minutes.value);
       const llmPackageCostUSD = getLLMPackagePrice(min);
@@ -179,56 +240,78 @@
       const totalRevenue = estimatedDeals * 20000;
       const totalProfit = totalRevenue - totalMonthlyCostAED;
       const profitColor = totalProfit >= 0 ? '#00ffae' : '#ff5e5e';
+      const agentsRequired = Math.ceil(estimatedAppointments / (2 * 5 * 4));
+      const availableAgents = parseInt(agentCount.value);
+
+      if (availableAgents < agentsRequired) {
+        agentWarning.textContent = '⚠️ Warning: You do not have enough agents to handle this campaign based on appointment volume.';
+      } else {
+        agentWarning.textContent = '';
+      }
+
+      if (parseFloat(conversionRate.value) === 0.02) {
+        lowRateNote.innerHTML = '<strong>⚠️ Disclaimer:</strong> A 2% closing rate indicates that your agency might be struggling with sales performance. We recommend sales training or funnel optimization.';
+      } else {
+        lowRateNote.innerHTML = '';
+      }
 
       output.innerHTML = `
-        <strong>LLM Cost (USD):</strong> <span class="highlight">$${llmPackageCostUSD.toFixed(2)}</span><br>
-        <strong>Voice Cost (USD):</strong> <span class="highlight">$${voiceCostUSD.toFixed(2)}</span><br>
+        
 
-        <table>
-          <tr><th>Item</th><th>Value</th></tr>
-          <tr><td>💵 Fixed Callistry Cost</td><td class="highlight">AED ${fixedCostAED}</td></tr>
-          <tr><td>📞 Twilio Cost (Voice)</td><td class="highlight">AED ${(voiceCostUSD * 3.67).toFixed(2)}</td></tr>
-          <tr><td>🧠 Purchased LLM Package</td><td class="highlight">AED ${totalLLMAED.toFixed(2)}</td></tr>
-          <tr><td><strong>💰 Total Monthly Cost</strong></td><td class="highlight"><strong>AED ${totalMonthlyCostAED.toFixed(2)}</strong></td></tr>
-        </table>
+<table style="width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px;">
+  <tr style="border-bottom: 1px solid #444;">
+    <td style="text-align: left; padding: 8px;" colspan="2"><strong>💰 EXPENSE SUMMARY (AED)</strong></td>
+  </tr>
+  <tr style="border-bottom: 1px solid #444;">
+    <td style="text-align: left; padding: 8px;">💵 Fixed Callistry Cost</td>
+    <td style="text-align: right; padding: 8px; color: #00ffae; font-weight: bold;">AED ${fixedCostAED}</td>
+  </tr>
+  <tr style="border-bottom: 1px solid #444;">
+    <td style="text-align: left; padding: 8px;">📞 Twilio Cost (Voice)</td>
+    <td style="text-align: right; padding: 8px; color: #00ffae; font-weight: bold;">AED ${(voiceCostUSD * 3.67).toFixed(2)}</td>
+  </tr>
+  <tr style="border-bottom: 1px solid #444;">
+    <td style="text-align: left; padding: 8px;">🧠 Purchased LLM Package</td>
+    <td style="text-align: right; padding: 8px; color: #00ffae; font-weight: bold;">AED ${totalLLMAED.toFixed(2)}</td>
+  </tr>
+  <tr style="border-top: 1px solid #777;">
+    <td style="text-align: left; padding: 8px;"><strong>💰 Total Monthly Cost</strong></td>
+    <td style="text-align: right; padding: 8px; color: #00ffae; font-weight: bold;"><strong>AED ${totalMonthlyCostAED.toFixed(2)}</strong></td>
+  </tr>
+</table>
+
+
 
         <strong>📊 Estimated Appointment Simulation:</strong><br>
         <ul>
-          <li>If you make <span class="highlight">${min}</span> minutes of calls</li>
-          <li>With an average call length of <span class="highlight">2.5 minutes</span></li>
-          <li>You get around <span class="highlight">${estimatedConversations}</span> conversations</li>
-          <li>At an average <span class="highlight">10%</span> conversion rate</li>
-          <li>You can expect around <span class="highlight">${estimatedAppointments}</span> appointments booked</li>
-          <li><strong>Agents Required:</strong> <span class="highlight">${Math.ceil(estimatedAppointments / (2 * 5 * 4))}</span></li>
+          <li>If you make <span class="highlight" style="color: #00ffae; font-weight: bold;">${min}</span> minutes of calls</li>
+          <li>With an average call length of <span class="highlight" style="color: #00ffae; font-weight: bold;">2.5 minutes</span></li>
+          <li>You get around <span class="highlight" style="color: #00ffae; font-weight: bold;">${estimatedConversations}</span> conversations</li>
+          <li>At an average <span class="highlight" style="color: #00ffae; font-weight: bold;">10%</span> conversion rate</li>
+          <li>You can expect around <span class="highlight" style="color: #00ffae; font-weight: bold;">${estimatedAppointments}</span> appointments booked</li>
+          <li><strong>Agents Required:</strong> <span class="highlight" style="color: #00ffae; font-weight: bold;">${agentsRequired}</span></li>
         </ul>
 
         <strong>📉 ROI Based on Selected Deal Closing Rate:</strong><br>
         <ul>
           <li>Assuming ${estimatedAppointments} appointments</li>
-          <li>And a closing rate of <span class="highlight">${(parseFloat(conversionRate.value) * 100).toFixed(0)}%</span></li>
-          <li>You close <span class="highlight">${estimatedDeals}</span> deals</li>
-          <li>Total income: <span class="highlight">AED ${totalRevenue}</span></li>
-          <li><strong>Net Profit:</strong> <span class="highlight" style="color: ${profitColor}">AED ${totalProfit.toFixed(2)}</span></li>
-        </ul>
-        <div id="lowRateNote"></div>`;
+          <li>And a closing rate of <span class="highlight" style="color: #00ffae; font-weight: bold;">${(parseFloat(conversionRate.value) * 100).toFixed(0)}%</span></li>
+          <li>You close <span style="color: ${estimatedDeals > 0 ? '#00ffae' : '#ff5e5e'}; font-weight: bold;">${estimatedDeals}</span> deals</li>
+          <li>Total income: <span style="color: ${totalRevenue > 0 ? '#00ffae' : '#ff5e5e'}; font-weight: bold;">AED ${totalRevenue}</span></li>
+          <li><strong>Net Profit:</strong> <span style="color: ${profitColor}; font-weight: bold;">AED ${totalProfit.toFixed(2)}</span></li>
+        </ul>`;
     }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      calculate();
-      conversionRate.addEventListener('change', () => {
-        const disclaimer = document.getElementById('lowRateNote');
-        if (parseFloat(conversionRate.value) === 0.02) {
-          disclaimer.innerHTML = `<p style='font-size: 0.85em; color: #ffaa00; margin-top: 10px;'><strong>Disclaimer:</strong> A 2% closing rate is considered extremely conservative. If this reflects your current results, it may indicate an opportunity to improve lead nurturing and closing strategies.</p>`;
-        } else {
-          disclaimer.innerHTML = '';
-        }
-      });
-    });
-
-    country.addEventListener('change', calculate);
-    llm.addEventListener('change', calculate);
-    minutes.addEventListener('input', calculate);
-    conversionRate.addEventListener('change', calculate);
-  </script>
+  function downloadPDF() {
+  const element = document.getElementById('output');
+  const opt = {
+    margin:       0.5,
+    filename:     'callistry-roi.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+  html2pdf().set(opt).from(element).save();
+}
+</script>
 </body>
 </html>

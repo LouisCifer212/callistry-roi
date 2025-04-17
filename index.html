@@ -1,243 +1,489 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Callistry ROI Calculator</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Callistry AI - Provalo Ora</title>
+  <meta name="description" content="Callistry AI effettua chiamate automatiche, gestisce lead e fissa appuntamenti per la tua agenzia immobiliare 24/7.">
+  <meta property="og:title" content="Callistry AI - L’assistente che chiama per te">
+  <meta property="og:description" content="Ogni chiamata persa è un'opportunità mancata. Scopri Callistry AI.">
+  <meta property="og:image" content="https://callistry.app/preview.jpg">
+  <meta property="og:url" content="https://callistry.app">
+  <meta name="twitter:card" content="summary_large_image">
   <style>
     body {
       margin: 0;
-      padding: 20px;
-      background: linear-gradient(135deg, #1e1e82, #5e2d91);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,48,238,1) 68%, rgba(255,25,25,1) 98%);
+      animation: gradient 30s ease infinite;
+      background-size: 400% 400%;
+      background-attachment: fixed;
       color: #fff;
     }
-    .container {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-      max-width: 600px;
-      margin: 0 auto;
+    @keyframes gradient {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+    .wave {
+      background: rgb(255 255 255 / 25%);
+      border-radius: 1000% 1000% 0 0;
+      position: fixed;
+      width: 200%;
+      height: 12em;
+      animation: wave 10s -3s linear infinite;
+      transform: translate3d(0, 0, 0);
+      opacity: 0.8;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+    }
+    .wave:nth-of-type(2) {
+      bottom: -1.25em;
+      animation: wave 10s linear reverse infinite;
+      opacity: 0.8;
+    }
+    .wave:nth-of-type(3) {
+      bottom: -2.5em;
+      animation: wave 30s -1s reverse infinite;
+      opacity: 0.9;
+    }
+    @keyframes wave {
+      2% { transform: translateX(1); }
+      25% { transform: translateX(-25%); }
+      50% { transform: translateX(-50%); }
+      75% { transform: translateX(-25%); }
+      100% { transform: translateX(1); }
+    }
+    h1, h2, h3, p {
       text-align: center;
     }
     h2 {
-      margin-top: 0;
-      margin-bottom: 20px;
-      font-size: 2rem;
       color: #f6ba02;
+      font-size: 2rem;
+      margin-top: 60px;
     }
-    label {
-      display: block;
-      margin: 20px 0 5px;
-      text-align: left;
-      font-weight: 600;
-    }
-    select, input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 10px;
+    .btn {
+      background: #f6ba02;
+      color: #111;
+      padding: 12px 24px;
+      text-decoration: none;
       border-radius: 8px;
-      border: none;
-      font-size: 1em;
-      background: #1c1f2b;
-      color: #fff;
+      font-weight: bold;
+      display: inline-block;
+      margin: 20px auto;
     }
-    .result {
-      margin-top: 30px;
-      padding: 20px;
-      background: #12141c;
-      border: 1px solid #444;
-      border-radius: 14px;
+    .section {
+      max-width: 960px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+    iframe {
+      width: 100%;
+      max-width: 600px;
+      height: 400px;
+      border: none;
+      border-radius: 12px;
+      display: block;
+      margin: auto;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      max-width: 600px;
+      margin: 20px auto;
+      font-size: 1.1rem;
+    }
+    ul li {
+      margin: 10px 0;
       text-align: left;
     }
-    .warning {
-      font-size: 0.85em;
-      color: #ff5e5e;
-      margin-bottom: 10px;
-      animation: flash 1s infinite;
-      font-weight: bold;
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #ccc;
+      font-size: 0.9rem;
     }
-    @keyframes flash {
-      0% { opacity: 1; }
-      50% { opacity: 0; }
-      100% { opacity: 1; }
+    .animated-card {
+      position: relative;
+      width: 280px;
+      margin: 20px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      transition: transform 0.4s, box-shadow 0.4s;
+      text-align: center;
     }
-    @page { margin: 1cm; }
+    .animated-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 12px 35px rgba(255, 255, 255, 0.15);
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+    .animated-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 40px;
+    }
+.section.fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1s ease;
+}
+.section.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 40px 0;
+}
+
+.container .box {
+  position: relative;
+  width: 320px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 30px;
+  transition: 0.5s;
+}
+
+.container .box::before,
+.container .box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 8px;
+  transform: skewX(15deg);
+  transition: 0.5s;
+}
+
+.container .box::before {
+  left: 50px;
+  width: 50%;
+  background: linear-gradient(315deg, #ffbc00, #ff0058);
+}
+
+.container .box::after {
+  left: 50px;
+  width: 50%;
+  background: linear-gradient(315deg, #03a9f4, #ff0058);
+  filter: blur(30px);
+}
+
+.container .box:hover::before,
+.container .box:hover::after {
+  transform: skewX(0deg);
+  left: 20px;
+  width: calc(100% - 90px);
+}
+
+.container .box span {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.container .box span::before,
+.container .box span::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  animation: animate 2s ease-in-out infinite;
+  transition: 0.5s;
+}
+
+.container .box:hover span::before {
+  top: -50px;
+  left: 50px;
+  width: 100px;
+  height: 100px;
+  opacity: 1;
+}
+
+.container .box:hover span::after {
+  bottom: -50px;
+  right: 50px;
+  width: 100px;
+  height: 100px;
+  opacity: 1;
+  animation-delay: -1s;
+}
+
+@keyframes animate {
+  0%, 100% { transform: translateY(10px); }
+  50% { transform: translate(-10px); }
+}
+
+.container .box .content {
+  position: relative;
+  left: 0;
+  padding: 20px 40px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 1;
+  transform: 0.5s;
+  color: #fff;
+  text-align: center;
+}
+
+.container .box:hover .content {
+  left: -25px;
+  padding: 60px 40px;
+}
+
+.container .box .content h2 {
+  font-size: 1.5em;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.container .box .content p {
+  font-size: 1em;
+  margin-bottom: 10px;
+  line-height: 1.4em;
+}
+
+.container .box .content a {
+  display: inline-block;
+  font-size: 1em;
+  color: #111;
+  background: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+.container .box .content a:hover {
+  background: #ffcf4d;
+  border: 1px solid rgba(255, 0, 88, 0.4);
+  box-shadow: 0 1px 15px rgba(1, 1, 1, 0.2);
+}
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Callistry ROI Calculator</h2>
-    <label for="country">Country (call origin - where you're calling from):</label>
-    <select id="country">
-      <option value="0.2205">UAE</option>
-      <option value="0.055">USA</option>
-      <option value="0.3308">Italy</option>
-      <option value="0.3500">Germany</option>
-      <option value="0.0368">India</option>
-      <option value="0.3480">Russia</option>
-      <option value="0.013">UK</option>
-    </select>
-    <label for="llm">AI Model:</label>
-    <select id="llm">
-      <option value="0.000099">GPT-4o Mini</option>
-      <option value="0.0000998">GPT-4o</option>
-      <option value="0.0000999">GPT-4o Realtime</option>
-      <option value="0.000096">Claude 3 Haiku</option>
-      <option value="0.000096">Claude 3.5 Haiku</option>
-      <option value="0.0000999">Claude 3.7 Sonnet</option>
-    </select>
-    <label for="minutes">Minutes Used per Month:</label>
-    <input type="number" id="minutes" value="1000"/>
-    <label for="conversionRate">Your Real Estate Agency's Deal Closing Rate (%):</label>
-    <select id="conversionRate">
-      <option value="0.02">2%</option>
-      <option value="0.03">3%</option>
-      <option value="0.04">4%</option>
-      <option value="0.05">5%</option>
-      <option value="0.06">6%</option>
-      <option value="0.07">7%</option>
-      <option value="0.08">8%</option>
-      <option value="0.09">9%</option>
-      <option value="0.10">10%</option>
-    </select>
-    <p style="font-size: 0.85em; margin-top: -5px; color: #ccc; text-align: left;">
-  📌 Example: if you book 20 appointments and close 2 deals, your closing rate is 10%.
-</p>
-    <label for="agentCount">Number of Agents Available:</label>
-    <select id="agentCount">
-      <!-- options generated in JS -->
-    </select>
-    <button id="calculateBtn" style="margin-top: 20px; padding: 12px 24px; font-size: 1em; background-color: #f6ba02; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
-      📊 Calculate
-    </button>
-    <div id="output" class="result"></div>
-    <div id="lowRateNote" style="font-size: 1.1em; font-weight: bold; color: #ffaa00; text-align: center; margin-top: 15px;"></div>
-    <div id="agentWarning" class="warning" style="font-size: 1.1em; font-weight: bold; color: #ff5e5e; animation: flash 1s infinite;"></div>
-    <p style="font-size: 0.85em; margin-top: 30px; color: #ccc; text-align: center;">
-      📌 Note: Calculations are based on an average real estate deal value of <strong>AED 1,000,000</strong> with a minimum 2% commission per deal.
-    </p>
-    <p style="font-size: 0.85em; margin-top: 10px; color: #ccc; text-align: center;">
-      📌 We recommend using campaigns to generate appointments in a balanced way based on your current team. One agent can typically manage up to <strong>2 appointments per day</strong>, with a standard 5-day work week.
-    </p>
-    <div style="text-align: center; margin-top: 30px;">
-            <a href="https://wa.me/971552930212" target="_blank" style="display: inline-block; background-color: #25D366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height: 20px; vertical-align: middle; margin-right: 8px;"> WhatsApp Us
-      </a>
-      <a href="https://login.1stisland.com/payment-link/67c14fd9156a775b216e55d3" target="_blank" style="display: inline-block; background-color: #f6ba02; color: #000; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
-        🚀 Start Now
-      </a>
+  <div class="wave"></div>
+  <div class="wave"></div>
+  <div class="wave"></div>
+
+  <section class="section">
+<h1 style="font-size: 3rem; color: #f6ba02; text-align: center;">Callistry AI: L’assistente che chiama per te</h1>
+    <p style="font-size: 2rem; color: #f6ba02; text-align: center;">Ogni chiamata persa è un'opportunità mancata.</p>
+    <ul>
+      <li>📞 Più di 400 chiamate al giorno restano senza risposta</li>
+      <li>✅ Lead che non verranno mai ricontattati</li>
+      <li>📅 Appuntamenti che non verranno mai fissati</li>
+    </ul>
+    <p>I tuoi concorrenti stanno già usando l'AI per trasformare quelle opportunità perse in contratti chiusi.</p>
+    <p>Callistry AI non si stanca mai, non dimentica mai di richiamare e non perde mai un lead.</p>
+    <ul>
+      <li>✔️ Qualifica i contatti più velocemente di qualsiasi team umano</li>
+      <li>✔️ Riempie il tuo calendario con investitori pronti ad acquistare</li>
+      <li>✔️ Ti libera il tempo per fare ciò che conta davvero: chiudere vendite</li>
+    </ul>
+    <div style="text-align:center;">
+      <a href="#try" class="btn">🚀 Scopri come provarlo</a>
     </div>
+  </section>
+
+  <section class="section">
+    <h2>🤖 Cos'è Callistry AI?</h2>
+    <p>Callistry è il tuo assistente virtuale che effettua chiamate per conto della tua agenzia immobiliare, qualificando i lead, gestendo le obiezioni e fissando appuntamenti direttamente sul tuo calendario — tutto in automatico, 24/7.</p>
+    <p>È come avere il tuo miglior venditore al telefono… che non si ferma mai.</p>
+  </section>
+
+  <section class="section">
+    <h2>🎬 Guarda come funziona</h2>
+    <iframe src="https://www.loom.com/embed/your-video-id" allowfullscreen></iframe>
+  </section>
+
+<section class="section fade-in">
+    <h2>💡 Feature & Bonus</h2>
+    <div class="animated-grid">
+      <div class="animated-card">
+        <h3>Caratteristiche</h3>
+        <p>✅ Voce realistica<br>✅ Obiezioni automatiche<br>✅ Integrazione CRM<br>✅ Trascrizione chiamate</p>
+      </div>
+      <div class="animated-card">
+        <h3>Bonus</h3>
+        <p>🎁 Setup gratuito<br>🎁 Strategia personalizzata (valore 8000€)</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="try">
+    <h2>🚀 Provalo Subito</h2>
+    <p>Inserisci i tuoi dati per ricevere una chiamata demo dell’AI in tempo reale.</p>
+    <div style="text-align:center;">
+      <iframe src="https://login.1stisland.com/widget/form/pdxtgk1MXFpjV7MHITO2" height="730"></iframe>
+    </div>
+  </section>
+
+  <section>
+  <h2>⚖️ Callistry vs Altre Soluzioni</h2>
+  <div style="overflow-x:auto">
+    <table style="width:100%; border-collapse: collapse; background-color: rgba(255,255,255,0.05); border-radius: 12px;">
+      <thead style="background-color: rgba(255,255,255,0.1);">
+        <tr>
+          <th style="padding:12px; text-align:left; color:#f6ba02;">Caratteristiche</th>
+          <th style="padding:12px;">Callistry AI</th>
+          <th style="padding:12px;">CRM con reminder</th>
+          <th style="padding:12px;">Assistente umano</th>
+          <th style="padding:12px;">Sales Rep</th>
+          <th style="padding:12px;">AI Chatbot</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:12px;">Chiamate automatiche</td>
+          <td style="text-align:center;">✅</td>
+          <td style="text-align:center;">❌</td>
+          <td style="text-align:center;">❌</td>
+          <td style="text-align:center;">❌</td>
+          <td style="text-align:center;">❌</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;">Obiezioni gestite</td>
+          <td style="text-align:center;">✅</td>
+          <td style="text-align:center;">❌</td>
+          <td style="text-align:center;">❌</td>
+          <td style="text-align:center;">✔️</td>
+          <td style="text-align:center;">⚠️ Solo testuali</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;">Disponibilità 24/7</td>
+          <td style="text-align:center;">✅</td>
+          <td style="text-align:center;">❌</td>
+          <td style="text-align:center;">❌</td>
+          <td style="text-align:center;">❌</td>
+          <td style="text-align:center;">✅</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;">Costo mensile</td>
+          <td style="text-align:center;">Basso, fisso</td>
+          <td style="text-align:center;">Medio</td>
+          <td style="text-align:center;">Alto</td>
+          <td style="text-align:center;">% commissioni</td>
+          <td style="text-align:center;">Basso</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;">Performance stabile</td>
+          <td style="text-align:center;">✅</td>
+          <td style="text-align:center;">⚠️</td>
+          <td style="text-align:center;">⚠️</td>
+          <td style="text-align:center;">❌</td>
+          <td style="text-align:center;">⚠️ Limitata a testuale</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const agentSelect = document.getElementById('agentCount');
-      for (let i = 1; i <= 50; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i;
-        agentSelect.appendChild(option);
-      }
+</section>
 
-      document.getElementById('calculateBtn').addEventListener('click', calculate);
+<section class="section fade-in">
+    <h2>🧰 Funzionalità incluse</h2>
+    <div class="animated-grid">
+      <div class="animated-card">✅ Agenti vocali illimitati</div>
+      <div class="animated-card">✅ 56 voci ultra-realistiche</div>
+      <div class="animated-card">✅ LLM multimodale</div>
+      <div class="animated-card">✅ Chiamate inbound/outbound</div>
+      <div class="animated-card">✅ Registrazione + trascrizione</div>
+      <div class="animated-card">✅ Prenotazione appuntamenti</div>
+      <div class="animated-card">✅ Rilevamento segreteria</div>
+      <div class="animated-card">✅ Consulenze one-to-one</div>
+      <div class="animated-card">✅ API & Webhook</div>
+      <div class="animated-card">✅ Clonazione voce personalizzata</div>
+    </div>
+  </section>
+
+<section class="section fade-in">
+    <h2>❓ Domande Frequenti (FAQ)</h2>
+    <div class="animated-grid">
+      <div class="animated-card">
+        <h3>Quanto è realistica la voce?</h3>
+        <p>✔️ 56 voci realistiche<br>✔️ Clonazione su richiesta</p>
+      </div>
+      <div class="animated-card">
+        <h3>L'AI supporta più lingue?</h3>
+        <p>✔️ Multilingua<br>✔️ 100% via cloud</p>
+      </div>
+      <div class="animated-card">
+        <h3>Come funziona la prenotazione?</h3>
+        <p>✔️ L'AI accede al tuo calendario<br>✔️ Prenota in autonomia</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>⏳ Cosa ci fai qui sotto?</h2>
+    <p>Non rimandare. Il momento di rivoluzionare la tua agenzia è adesso.</p>
+    <p><strong>Prenota subito la tua demo gratuita oppure attiva Callistry con un solo clic.</strong></p>
+    <p style="font-size:2rem">👇👇👇</p>
+  </section>
+
+  <section id="demo" class="section">
+    <h2>📅 Prenota la tua demo gratuita</h2>
+    <p>Parla con un esperto e scopri come Callistry può rivoluzionare la tua agenzia.</p>
+    <div style="text-align:center;">
+      <a href="https://login.1stisland.com/widget/booking/sM8zFmd9I49UG5mBiixC" class="btn">Prenota ora</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>🔥 Pronto a dominare il mercato?</h2>
+    <p>Callistry AI lavora 24/7 per la tua agenzia. Inizia oggi e trasforma ogni chiamata in un’opportunità chiusa.</p>
+    <div style="text-align:center;">
+      <a href="https://login.1stisland.com/payment-link/67c14fd9156a775b216e55d3" class="btn">Attiva il servizio</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Callistry AI – Powered by First Island</p>
+    <p><a href="#" style="color:#aaa; text-decoration:underline;">Termini e condizioni</a> | <a href="#" style="color:#aaa; text-decoration:underline;">Privacy</a></p>
+  </footer>
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
     });
+  }, { threshold: 0.1 });
 
-    function calculate() {
-      const min = parseFloat(document.getElementById('minutes').value);
-      const voice = parseFloat(document.getElementById('country').value);
-      const llm = parseFloat(document.getElementById('llm').value);
-      const conversionRate = parseFloat(document.getElementById('conversionRate').value);
-      const agents = parseInt(document.getElementById('agentCount').value);
-      const fixedCostAED = 4800;
-      const voiceCostUSD = voice * min;
-      const totalVoiceAED = voiceCostUSD * 3.67;
-      let remaining = min;
-      let llmCostUSD = 0;
-      while (remaining > 0) {
-        if (remaining >= 15000) {
-          llmCostUSD += 1499;
-          remaining -= 15000;
-        } else if (remaining >= 5000) {
-          llmCostUSD += 499;
-          remaining -= 5000;
-        } else if (remaining >= 1000) {
-          llmCostUSD += 99;
-          remaining -= 1000;
-        } else {
-          llmCostUSD += 99;
-          break;
-        }
-      }
-      const totalLLMAED = llmCostUSD * 3.67;
-      const totalMonthlyCost = fixedCostAED + totalVoiceAED + totalLLMAED;
-      const conversations = Math.floor(min / 2.5);
-      const appointments = Math.floor(conversations * 0.1);
-      const deals = Math.floor(appointments * conversionRate);
-      const revenue = deals * 20000;
-      const profit = revenue - totalMonthlyCost;
+  document.querySelectorAll('.section.fade-in').forEach(section => {
+    observer.observe(section);
+  });
+</script>
 
-      const output = document.getElementById('output');
-      const lowRateNote = document.getElementById('lowRateNote');
-      const agentWarning = document.getElementById('agentWarning');
 
-      output.innerHTML = `
-        <table style="width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px;">
-          <tr style="border-bottom: 1px solid #444;">
-            <td style="text-align: left; padding: 8px;" colspan="2"><strong>💰 EXPENSE SUMMARY (AED)</strong></td>
-          </tr>
-          <tr style="border-bottom: 1px solid #444;">
-            <td style="text-align: left; padding: 8px;">💵 Fixed Callistry Cost</td>
-            <td style="text-align: right; padding: 8px; color: #00ffae; font-weight: bold;">AED ${fixedCostAED}</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #444;">
-            <td style="text-align: left; padding: 8px;">📞 Twilio Cost (Voice)</td>
-            <td style="text-align: right; padding: 8px; color: #00ffae; font-weight: bold;">AED ${totalVoiceAED.toFixed(2)}</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #444;">
-            <td style="text-align: left; padding: 8px;">🧠 Purchased LLM Package</td>
-            <td style="text-align: right; padding: 8px; color: #00ffae; font-weight: bold;">AED ${totalLLMAED.toFixed(2)}</td>
-          </tr>
-          <tr style="border-top: 1px solid #777;">
-            <td style="text-align: left; padding: 8px;"><strong>💰 Total Monthly Cost</strong></td>
-            <td style="text-align: right; padding: 8px; color: #00ffae; font-weight: bold;"><strong>AED ${totalMonthlyCost.toFixed(2)}</strong></td>
-          </tr>
-        </table>
-
-        <strong>📊 Estimated Appointment Simulation:</strong><br>
-        <ul>
-          <li>If you make <span class="highlight" style="color: #00ffae; font-weight: bold;">${min}</span> minutes of calls</li>
-          <li>With an average call length of <span class="highlight" style="color: #00ffae; font-weight: bold;">2.5 minutes</span></li>
-          <li>You get around <span class="highlight" style="color: #00ffae; font-weight: bold;">${conversations}</span> conversations</li>
-          <li>At an average <span class="highlight" style="color: #00ffae; font-weight: bold;">10%</span> conversion rate</li>
-          <li>You can expect around <span class="highlight" style="color: #00ffae; font-weight: bold;">${appointments}</span> appointments booked</li>
-          <li><strong>Agents Required:</strong> <span class="highlight" style="color: #00ffae; font-weight: bold;">${Math.ceil(appointments / (2 * 5 * 4))}</span></li>
-        </ul>
-
-        <strong>📉 ROI Based on Selected Deal Closing Rate:</strong><br>
-        <ul>
-          <li>Assuming ${appointments} appointments</li>
-          <li>And a closing rate of <span class="highlight" style="color: #00ffae; font-weight: bold;">${(conversionRate * 100).toFixed(0)}%</span></li>
-          <li>You close <span style="color: ${deals > 0 ? '#00ffae' : '#ff5e5e'}; font-weight: bold;">${deals}</span> deals</li>
-          <li>Total income: <span style="color: ${revenue > 0 ? '#00ffae' : '#ff5e5e'}; font-weight: bold;">AED ${revenue}</span></li>
-          <li><strong>Net Profit:</strong> <span style="color: ${profit >= 0 ? '#00ffae' : '#ff5e5e'}; font-weight: bold;">AED ${profit.toFixed(2)}</span></li>
-<li><strong>ROI:</strong> <span style="color: ${profit >= 0 ? '#00ffae' : '#ff5e5e'}; font-weight: bold;">${totalMonthlyCost > 0 ? ((profit / totalMonthlyCost) * 100).toFixed(1) : 0}%</span></li>
-        </ul>`;
-
-      if (conversionRate === 0.02) {
-        lowRateNote.innerHTML = '<strong>⚠️ Disclaimer:</strong> A 2% closing rate indicates that your agency might be struggling with sales performance. We recommend sales training or funnel optimization.';
-      } else {
-        lowRateNote.innerHTML = '';
-      }
-
-      const agentCapacity = agents * 2 * 5 * 4; // 2 appointments/day, 5 days/week, 4 weeks
-      if (appointments > agentCapacity) {
-        agentWarning.textContent = '⚠️ Warning: You do not have enough agents to handle this campaign based on appointment volume.';
-      } else {
-        agentWarning.textContent = '';
-      }
-    }
-  </script>
 </body>
 </html>
+
+
+

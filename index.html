@@ -80,6 +80,11 @@
       <option value="0.3480">Russia</option>
       <option value="0.013">UK</option>
     </select>
+    <label for="fixedCost">Fixed Callistry Cost (AED):</label>
+    <select id="fixedCost">
+      <option value="2099">AED 2,099</option>
+      <option value="4000">AED 4,000</option>
+    </select>
     <label for="llm">AI Model:</label>
     <select id="llm">
       <option value="0.000099">GPT-4o Mini</option>
@@ -150,10 +155,16 @@
       const llm = parseFloat(document.getElementById('llm').value);
       const conversionRate = parseFloat(document.getElementById('conversionRate').value);
       const agents = parseInt(document.getElementById('agentCount').value);
-      const fixedCostAED = 2099;
+      const fixedCostAED = parseFloat(document.getElementById('fixedCost').value);
       const voiceCostUSD = voice * min;
       const totalVoiceAED = voiceCostUSD * 3.67;
+      
+      // Calculate LLM cost with free minutes for 4000 AED plan
       let remaining = min;
+      if (fixedCostAED === 4000) {
+        remaining = Math.max(0, min - 1000); // First 1000 minutes are free for 4000 AED plan
+      }
+      
       let llmCostUSD = 0;
       while (remaining > 0) {
         if (remaining >= 15000) {
@@ -170,6 +181,7 @@
           break;
         }
       }
+      
       const totalLLMAED = llmCostUSD * 3.67;
       const totalMonthlyCost = fixedCostAED + totalVoiceAED + totalLLMAED;
       const conversations = Math.floor(min / 2.5);
@@ -182,6 +194,13 @@
       const lowRateNote = document.getElementById('lowRateNote');
       const agentWarning = document.getElementById('agentWarning');
 
+      // Show free minutes info for 4000 AED plan
+      const freeMinutesInfo = fixedCostAED === 4000 ? 
+        `<tr style="border-bottom: 1px solid #444;">
+          <td style="text-align: left; padding: 8px;">🎁 Free LLM Minutes (First 1000)</td>
+          <td style="text-align: right; padding: 8px; color: #00ffae; font-weight: bold;">Included</td>
+        </tr>` : '';
+
       output.innerHTML = `
         <table style="width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px;">
           <tr style="border-bottom: 1px solid #444;">
@@ -191,6 +210,7 @@
             <td style="text-align: left; padding: 8px;">💵 Fixed Callistry Cost</td>
             <td style="text-align: right; padding: 8px; color: #00ffae; font-weight: bold;">AED ${fixedCostAED}</td>
           </tr>
+          ${freeMinutesInfo}
           <tr style="border-bottom: 1px solid #444;">
             <td style="text-align: left; padding: 8px;">📞 Twilio Cost (Voice)</td>
             <td style="text-align: right; padding: 8px; color: #00ffae; font-weight: bold;">AED ${totalVoiceAED.toFixed(2)}</td>

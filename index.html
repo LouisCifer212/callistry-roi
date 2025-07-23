@@ -261,7 +261,11 @@
       <label for="conversionSlider">Deal Closing Rate: <span class="slider-value" id="conversionValue">10%</span></label>
       <input type="range" id="conversionSlider" class="slider" min="2" max="15" value="5" step="1">
     </div>
-
+      if (r.conversionRate <= 0.04) {
+        lowRateNote.innerHTML = '<strong>⚠️ Disclaimer:</strong> A 5% or lower closing rate indicates potential for improvement. Consider sales training or funnel optimization.';
+      } else {
+        lowRateNote.innerHTML = '';
+      }
     <!-- Slider for Agent Count -->
     <div class="slider-container">
       <label for="agentSlider">Number of Agents Available: <span class="slider-value" id="agentValue">5</span></label>
@@ -487,12 +491,6 @@
           <li><strong>Net Profit:</strong> <span style="color: ${r.profit >= 0 ? '#00ffae' : '#ff5e5e'}; font-weight: bold;">AED ${r.profit.toFixed(2)}</span></li>
           <li><strong>ROI:</strong> <span style="color: ${r.profit >= 0 ? '#00ffae' : '#ff5e5e'}; font-weight: bold;">${r.roi.toFixed(1)}%</span></li>
         </ul>`;
-
-      if (r.conversionRate <= 0.04) {
-        lowRateNote.innerHTML = '<strong>⚠️ Disclaimer:</strong> A 5% or lower closing rate indicates potential for improvement. Consider sales training or funnel optimization.';
-      } else {
-        lowRateNote.innerHTML = '';
-      }
 
       const agentCapacity = r.agents * 2 * 5 * 4;
       if (r.appointments > agentCapacity) {

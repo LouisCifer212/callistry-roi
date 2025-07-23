@@ -69,6 +69,7 @@
       font-size: 1em;
       background: #1c1f2b;
       color: #fff;
+      box-sizing: border-box;
     }
     .slider-container {
       margin: 20px 0;
@@ -235,8 +236,8 @@
 
     <label for="llm">AI Model:</label>
     <select id="llm">
-      <option value="0.000099">GPT-4o Mini</option>
       <option value="0.0000998">GPT-4o</option>
+      <option value="0.000099">GPT-4o Mini</option>
       <option value="0.0000999">GPT-4o Realtime</option>
       <option value="0.000096">Claude 3 Haiku</option>
       <option value="0.000096">Claude 3.5 Haiku</option>
@@ -251,21 +252,21 @@
 
     <!-- Personalized Deal Value -->
     <label for="dealValue">Average Deal Value (AED):</label>
-    <input type="number" id="dealValue" value="1000000" placeholder="Enter average deal value">
+    <input type="number" id="dealValue" value="1500000" placeholder="Enter average deal value">
 
     <label for="commissionRate">Your Commission Rate (%):</label>
-    <input type="number" id="commissionRate" value="2" min="1" max="10" step="0.1" placeholder="Enter commission rate">
+    <input type="number" id="commissionRate" value="4" min="1" max="10" step="0.1" placeholder="Enter commission rate">
 
     <!-- Slider for Conversion Rate -->
     <div class="slider-container">
       <label for="conversionSlider">Deal Closing Rate: <span class="slider-value" id="conversionValue">10%</span></label>
-      <input type="range" id="conversionSlider" class="slider" min="2" max="15" value="5" step="1">
+      <input type="range" id="conversionSlider" class="slider" min="2" max="50" value="10" step="1">
+      <div id="lowRateNote" style="display:none; margin-top:10px; background: #fffbe6; color: #856404; border: 1px solid #ffe58f; border-radius: 6px; padding: 10px 14px; font-size: 0.98em; text-align: left;">
+        <span style="font-size:1.2em; margin-right:6px;">⚠️</span>
+        <strong>Disclaimer:</strong> A 5% or lower closing rate indicates potential for improvement. Consider sales training or funnel optimization.
+      </div>
     </div>
-      if (r.conversionRate <= 0.04) {
-        lowRateNote.innerHTML = '<strong>⚠️ Disclaimer:</strong> A 5% or lower closing rate indicates potential for improvement. Consider sales training or funnel optimization.';
-      } else {
-        lowRateNote.innerHTML = '';
-      }
+
     <!-- Slider for Agent Count -->
     <div class="slider-container">
       <label for="agentSlider">Number of Agents Available: <span class="slider-value" id="agentValue">5</span></label>
@@ -300,7 +301,6 @@
     </div>
 
     <div id="output" class="result"></div>
-    <div id="lowRateNote" style="font-size: 1.1em; font-weight: bold; color: #ffaa00; text-align: center; margin-top: 15px;"></div>
     <div id="agentWarning" class="warning" style="font-size: 1.1em; font-weight: bold; color: #ff5e5e; animation: flash 1s infinite;"></div>
     
     <p style="font-size: 0.85em; margin-top: 30px; color: #ccc; text-align: center;">
@@ -309,7 +309,8 @@
     <p style="font-size: 0.85em; margin-top: 10px; color: #ccc; text-align: center;">
       📌 We recommend using campaigns to generate appointments in a balanced way based on your current team. One agent can typically manage up to <strong>2 appointments per day</strong>, with a standard 5-day work week.
     </p>
-    <!-- Key Metrics Display -->
+
+    <!-- Key Metrics Display (moved to bottom) -->
     <div id="keyMetrics" class="key-metrics" style="display: none;">
       <div class="metric-card">
         <div class="metric-value" id="netProfitMetric">AED 0</div>
@@ -328,9 +329,11 @@
         <div class="metric-label">Appointments</div>
       </div>
     </div>
+
     <div style="text-align: center; margin-top: 30px;">
       <a href="https://wa.me/971552930212" target="_blank" style="display: inline-block; background-color: #25D366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height: 20px; vertical-align: middle; margin-right: 8px;"> WhatsApp Us
+        <img src="https://placehold.co/20x20/25D366/ffffff?text=W" alt="WhatsApp" style="height: 20px; vertical-align: middle; margin-right: 8px;"> WhatsApp Us
+      </a>
     </div>
   </div>
 
@@ -344,14 +347,26 @@
       const minutesSlider = document.getElementById('minutesSlider');
       const conversionSlider = document.getElementById('conversionSlider');
       const agentSlider = document.getElementById('agentSlider');
+      const conversionValue = document.getElementById('conversionValue');
+      const lowRateNote = document.getElementById('lowRateNote');
 
       minutesSlider.addEventListener('input', (e) => {
         document.getElementById('minutesValue').textContent = e.target.value;
       });
 
-      conversionSlider.addEventListener('input', (e) => {
-        document.getElementById('conversionValue').textContent = e.target.value + '%';
-      });
+      // Conversion slider with disclaimer logic
+      function updateLowRateNote() {
+        const val = parseFloat(conversionSlider.value);
+        conversionValue.textContent = val + '%';
+        if (val <= 5) {
+          lowRateNote.style.display = 'block';
+        } else {
+          lowRateNote.style.display = 'none';
+        }
+      }
+      
+      conversionSlider.addEventListener('input', updateLowRateNote);
+      updateLowRateNote(); // run once on load
 
       agentSlider.addEventListener('input', (e) => {
         document.getElementById('agentValue').textContent = e.target.value;
@@ -438,7 +453,6 @@
     function updateOutput() {
       const r = currentResults;
       const output = document.getElementById('output');
-      const lowRateNote = document.getElementById('lowRateNote');
       const agentWarning = document.getElementById('agentWarning');
 
       const freeMinutesInfo = r.fixedCostAED === 4000 ? 

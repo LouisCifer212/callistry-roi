@@ -216,26 +216,6 @@
   <div class="container">
     <h2>🚀 Callistry ROI Calculator</h2>
     
-    <!-- Key Metrics Display -->
-    <div id="keyMetrics" class="key-metrics" style="display: none;">
-      <div class="metric-card">
-        <div class="metric-value" id="netProfitMetric">AED 0</div>
-        <div class="metric-label">Net Monthly Profit</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-value" id="roiMetric">0%</div>
-        <div class="metric-label">ROI</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-value" id="dealsMetric">0</div>
-        <div class="metric-label">Deals Closed</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-value" id="appointmentsMetric">0</div>
-        <div class="metric-label">Appointments</div>
-      </div>
-    </div>
-
     <label for="country">Country (call origin - where you're calling from):</label>
     <select id="country">
       <option value="0.2205">UAE</option>
@@ -278,7 +258,7 @@
 
     <!-- Slider for Conversion Rate -->
     <div class="slider-container">
-      <label for="conversionSlider">Deal Closing Rate: <span class="slider-value" id="conversionValue">5%</span></label>
+      <label for="conversionSlider">Deal Closing Rate: <span class="slider-value" id="conversionValue">10%</span></label>
       <input type="range" id="conversionSlider" class="slider" min="2" max="15" value="5" step="1">
     </div>
 
@@ -325,14 +305,28 @@
     <p style="font-size: 0.85em; margin-top: 10px; color: #ccc; text-align: center;">
       📌 We recommend using campaigns to generate appointments in a balanced way based on your current team. One agent can typically manage up to <strong>2 appointments per day</strong>, with a standard 5-day work week.
     </p>
-    
+    <!-- Key Metrics Display -->
+    <div id="keyMetrics" class="key-metrics" style="display: none;">
+      <div class="metric-card">
+        <div class="metric-value" id="netProfitMetric">AED 0</div>
+        <div class="metric-label">Net Monthly Profit</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="roiMetric">0%</div>
+        <div class="metric-label">ROI</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="dealsMetric">0</div>
+        <div class="metric-label">Deals Closed</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="appointmentsMetric">0</div>
+        <div class="metric-label">Appointments</div>
+      </div>
+    </div>
     <div style="text-align: center; margin-top: 30px;">
       <a href="https://wa.me/971552930212" target="_blank" style="display: inline-block; background-color: #25D366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height: 20px; vertical-align: middle; margin-right: 8px;"> WhatsApp Us
-      </a>
-      <a href="https://login.1stisland.com/payment-link/67c14fd9156a775b216e55d3" target="_blank" style="display: inline-block; background-color: #f6ba02; color: #000; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 10px;">
-        🚀 Start Now
-      </a>
     </div>
   </div>
 
@@ -494,8 +488,8 @@
           <li><strong>ROI:</strong> <span style="color: ${r.profit >= 0 ? '#00ffae' : '#ff5e5e'}; font-weight: bold;">${r.roi.toFixed(1)}%</span></li>
         </ul>`;
 
-      if (r.conversionRate <= 0.02) {
-        lowRateNote.innerHTML = '<strong>⚠️ Disclaimer:</strong> A 2% or lower closing rate indicates potential for improvement. Consider sales training or funnel optimization.';
+      if (r.conversionRate <= 0.04) {
+        lowRateNote.innerHTML = '<strong>⚠️ Disclaimer:</strong> A 5% or lower closing rate indicates potential for improvement. Consider sales training or funnel optimization.';
       } else {
         lowRateNote.innerHTML = '';
       }
@@ -591,7 +585,7 @@
 
       const manualOutreach = {
         name: "Manual Outreach + Ads",
-        monthlyCost: 8000 + (r.agents * 2500), // Marketing budget + reduced agent cost
+        monthlyCost: 8000 + (r.agents * 3000), // Marketing budget + reduced agent cost
         appointments: Math.floor(r.appointments * 0.6), // 60% efficiency vs AI
         deals: Math.floor(r.appointments * 0.6 * r.conversionRate),
         revenue: Math.floor(r.appointments * 0.6 * r.conversionRate) * r.dealValue * r.commissionRate,
